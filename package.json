@@ -1,0 +1,17 @@
+{
+  "name": "projeto-qa-api",
+  "version": "1.0.0",
+  "description": "Teste pratico QA - Marketplace cupons checkout com node:test",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "mock-marketplace-api.js",
+  "scripts": {
+    "mock:api": "node mock-marketplace-api.js",
+    "test": "node --test tests/api/*.test.js",
+    "test:watch": "node --test --watch tests/api/*.test.js",
+    "report:evidence": "node scripts/gerar-evidencias.js",
+    "report:perf": "node scripts/gerar-performance-baseline.js",
+    "report:html": "node scripts/gerar-relatorio-html.js"
+  }
+}
