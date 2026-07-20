@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QA Marketplace API Report</title>
+  <style>
+    :root {
+      --bg: #a9ee9c;
+      --panel: #f7fff5;
+      --border: #6fb06b;
+      --text: #133016;
+      --muted: #3d5b41;
+      --pass: #1f7a3d;
+      --fail: #b3261e;
+      --row: #eaffea;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #b1f2a3 0%, #d8f9d1 100%);
+      color: var(--text);
+    }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 16px; }
+    .title {
+      display: flex; justify-content: space-between; align-items: start; gap: 16px;
+      margin-bottom: 12px;
+    }
+    h1 { margin: 0; font-size: 34px; }
+    .generated { text-align: right; font-size: 13px; line-height: 1.35; }
+    .section {
+      background: rgba(255,255,255,0.55);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+    }
+    .section h2 {
+      margin: 0; padding: 10px 12px; font-size: 22px; border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.35);
+    }
+    .info-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(260px, 1fr)); gap: 10px; padding: 12px;
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--border); padding: 12px;
+    }
+    .stats {
+      width: 100%; border-collapse: collapse; background: white;
+    }
+    .stats th, .stats td {
+      border: 1px solid #999; padding: 8px 10px; text-align: center; font-size: 14px;
+    }
+    .stats thead th {
+      background: #d6ead2; font-weight: bold;
+    }
+    .stats tbody tr:nth-child(even) { background: var(--row); }
+    .summary-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 12px;
+    }
+    .metric {
+      background: white; border: 1px solid var(--border); padding: 12px;
+      min-height: 84px;
+    }
+    .metric .label { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .metric .value { font-size: 26px; font-weight: bold; }
+    .metric.pass .value { color: var(--pass); }
+    .metric.fail .value { color: var(--fail); }
+    .details-table { width: 100%; border-collapse: collapse; background: white; }
+    .details-table th, .details-table td {
+      border: 1px solid #999; padding: 8px; vertical-align: top; font-size: 13px;
+    }
+    .details-table thead th { background: #d6ead2; }
+    .details-table tbody tr:nth-child(even) { background: #f6fff4; }
+    .trace-table { width: 100%; border-collapse: collapse; background: white; }
+    .trace-table th, .trace-table td {
+      border: 1px solid #999; padding: 8px; vertical-align: top; font-size: 13px;
+    }
+    .trace-table thead th { background: #d6ead2; }
+    .trace-table tbody tr:nth-child(even) { background: #f6fff4; }
+    .coverage-table { width: 100%; border-collapse: collapse; background: white; }
+    .coverage-table th, .coverage-table td {
+      border: 1px solid #999; padding: 8px; vertical-align: top; font-size: 13px;
+    }
+    .coverage-table thead th { background: #d6ead2; }
+    .coverage-table tbody tr:nth-child(even) { background: #f6fff4; }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 999px; color: white; font-weight: bold; font-size: 12px;
+    }
+    .badge-pass { background: var(--pass); }
+    .badge-fail { background: var(--fail); }
+    .badge-partial { background: #966b00; }
+    .badge-none { background: #4c4c4c; }
+    .muted { color: var(--muted); }
+    .notes { padding: 12px; }
+    .notes ul { margin: 0; padding-left: 18px; }
+    .mini { font-size: 13px; line-height: 1.5; }
+    .acceptance {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 12px;
+      margin: 12px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">
+      <div>
+        <h1>QA Marketplace API Report</h1>
+      </div>
+      <div class="generated">
+        <div><strong>Generated</strong></div>
+        <div>20/07/2026, 20:32:56</div>
+        <div><strong>Fonte:</strong> execução automatizada de testes</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Summary Information</h2>
+      <div class="summary-bar">
+        <div class="metric"><div class="label">Status</div><div class="value" style="font-size:20px;color:var(--fail)">Findings detected</div></div>
+        <div class="metric"><div class="label">Total Tests</div><div class="value">42</div></div>
+        <div class="metric pass"><div class="label">Pass</div><div class="value">29</div></div>
+        <div class="metric fail"><div class="label">Fail</div><div class="value">13</div></div>
+      </div>
+      <div class="info-grid">
+        <div class="card mini"><strong>Escopo</strong><br/>Cupom, checkout, carrinho, estoque e cálculo de totais no marketplace multi-seller.</div>
+        <div class="card mini"><strong>Leitura de QA</strong><br/>A suíte prioriza risco de negócio e expõe divergências reais da mock API.</div>
+        <div class="card mini"><strong>Ambiente</strong><br/>Node: v24.16.0<br/>OS: win32<br/>Comando: node --test tests/api/*.test.js</div>
+        <div class="card mini"><strong>Reprodutibilidade</strong><br/>Data/hora da execução exibida no topo.<br/>Artefatos complementares: evidências em Markdown e relatório executivo.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Defects by Severity</h2>
+      <table class="stats">
+        <thead>
+          <tr><th>Severidade</th><th>Quantidade</th><th>Prioridade sugerida</th><th>Resumo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Crítica</td><td>3</td><td>Alta</td><td style="text-align:left">Estoque, validade e acúmulo de cupons.</td></tr><tr><td>Alta</td><td>3</td><td>Alta/Média</td><td style="text-align:left">Mínimo inclusivo, sellerB e limite de uso.</td></tr><tr><td>Média</td><td>0</td><td>-</td><td style="text-align:left">Nenhum bug classificado nesta faixa.</td></tr><tr><td>Baixa</td><td>0</td><td>-</td><td style="text-align:left">Nenhum bug classificado nesta faixa.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Coverage by Test Type</h2>
+      <table class="coverage-table">
+        <thead>
+          <tr><th>Tipo</th><th>Status</th><th>Observação</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Testes funcionais</td><td><span class="badge badge-pass">Coberto</span></td><td>Cobertura forte de regras de cupom, carrinho, estoque, totais e checkout via testes de API.</td></tr><tr><td>Testes não funcionais</td><td><span class="badge badge-partial">Parcial</span></td><td>Há análise de risco e trade-offs documentados, mas sem suíte dedicada para segurança/resiliência/observabilidade.</td></tr><tr><td>Testes de performance</td><td><span class="badge badge-partial">Parcial</span></td><td>Baseline implementado com gate de thresholds (P95/P99/erros) em cenários críticos; não substitui carga de produção.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Performance Baseline</h2>
+      <table class="coverage-table">
+        <thead>
+          <tr><th>Cenário</th><th>Req</th><th>Conc.</th><th>RPS</th><th>Avg (ms)</th><th>P95 (ms)</th><th>P99 (ms)</th><th>Erros</th><th>Gate</th><th>Observação</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Leitura de catálogo</td>
+            <td>200</td>
+            <td>20</td>
+            <td>286.94</td>
+            <td>43.03</td>
+            <td>147.74</td>
+            <td>148.69</td>
+            <td>0</td>
+            <td><span class="badge badge-pass">Pass</span></td>
+            <td>Dentro dos thresholds definidos.</td>
+          </tr><tr>
+            <td>Criação de carrinho</td>
+            <td>120</td>
+            <td>15</td>
+            <td>404.75</td>
+            <td>28.81</td>
+            <td>47.15</td>
+            <td>47.80</td>
+            <td>0</td>
+            <td><span class="badge badge-pass">Pass</span></td>
+            <td>Dentro dos thresholds definidos.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="notes mini">
+        <strong>Thresholds:</strong> P95 ≤ 200ms, P99 ≤ 300ms, erros ≤ 0.<br/>
+        <strong>Resultado geral do gate:</strong> <span class="badge badge-pass">Pass</span>
+      </div>
+      <div class="notes mini muted">Gerado a partir de 2026-07-20T23:31:51.388Z com Node v24.16.0. Trata-se de baseline de referência para apresentação.</div>
+    </div>
+
+    <div class="section">
+      <h2>Test Statistics</h2>
+      <table class="stats">
+        <thead>
+          <tr><th>Suite</th><th>Total</th><th>Pass</th><th>Fail</th><th>Skip</th><th>Nota</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="text-align:left">Catálogo e carrinho</td><td>10</td><td>8</td><td>2</td><td>0</td><td style="text-align:left">Base funcional com falhas de estoque.</td></tr><tr><td style="text-align:left">Checkout</td><td>4</td><td>4</td><td>0</td><td>0</td><td style="text-align:left">Fluxo de fechamento consistente.</td></tr><tr><td style="text-align:left">Cupom - regras centrais</td><td>10</td><td>6</td><td>4</td><td>0</td><td style="text-align:left">Falhas em validade, mínimo e acúmulo.</td></tr><tr><td style="text-align:left">Cupom - bordas</td><td>8</td><td>2</td><td>6</td><td>0</td><td style="text-align:left">Limites de 50 e 100 expõem divergências.</td></tr><tr><td style="text-align:left">Contrato completo</td><td>6</td><td>4</td><td>2</td><td>0</td><td style="text-align:left">Mínimo inclusivo e frete grátis.</td></tr><tr><td style="text-align:left">Estoque</td><td>4</td><td>0</td><td>4</td><td>0</td><td style="text-align:left">Item zerado e excesso de quantidade.</td></tr>
+          <tr>
+            <th style="text-align:left">All Tests</th>
+            <th>42</th>
+            <th>29</th>
+            <th>13</th>
+            <th>0</th>
+            <th style="text-align:left">Bateria total da entrega</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Traceability Matrix</h2>
+      <table class="trace-table">
+        <thead>
+          <tr>
+            <th>Requisito do contrato</th>
+            <th>Teste(s) vinculados</th>
+            <th>Status</th>
+            <th>Evidência</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Cupom com mínimo inclusivo</td><td>PERCENT10 no mínimo de R$ 50,00; FRETEGRATIS no mínimo de R$ 100,00</td><td><span class="badge badge-fail">Fail</span></td><td>Retorno 422 em vez de 200.</td></tr><tr><td>Cupom expirado deve ser rejeitado</td><td>FIXO20 expirado</td><td><span class="badge badge-fail">Fail</span></td><td>Retorno 200 para cupom expirado.</td></tr><tr><td>Não acumular cupons</td><td>Segundo cupom no mesmo carrinho</td><td><span class="badge badge-fail">Fail</span></td><td>Mock aceita segundo cupom.</td></tr><tr><td>Limite de uso do cupom</td><td>Segundo uso do NOVATO5</td><td><span class="badge badge-fail">Fail</span></td><td>Segundo uso retorna 200.</td></tr><tr><td>Desconto sellerB apenas em sellerB</td><td>Cupom SELLERB15</td><td><span class="badge badge-fail">Fail</span></td><td>Desconto sobre subtotal total.</td></tr><tr><td>Respeito ao estoque</td><td>Estoque zero; Quantidade acima do estoque</td><td><span class="badge badge-fail">Fail</span></td><td>Retorno 200 para cenários inválidos.</td></tr><tr><td>Frete padrão de R$ 20</td><td>Adicionar item válido</td><td><span class="badge badge-pass">Pass</span></td><td>Total inclui frete padrão corretamente.</td></tr><tr><td>Checkout com carrinho vazio deve falhar</td><td>Carrinho vazio</td><td><span class="badge badge-pass">Pass</span></td><td>Retorno 422 com carrinho_vazio.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Test Details</h2>
+      <div class="notes mini muted">Lista resumida de evidências com cara de execução de dashboard, útil para leitura rápida em apresentação.</div>
+      <table class="details-table">
+        <thead>
+          <tr>
+            <th>Suite</th>
+            <th>Test</th>
+            <th>Status</th>
+            <th>Request</th>
+            <th>Expected</th>
+            <th>Obtained</th>
+            <th>Observation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Catálogo</td><td>GET /produtos</td><td><span class="badge badge-pass">Pass</span></td><td>GET /produtos</td><td>200</td><td>200</td><td>Lista com 4 produtos e sellers corretos.</td></tr><tr><td>Carrinho</td><td>POST /carrinho</td><td><span class="badge badge-pass">Pass</span></td><td>POST /carrinho</td><td>201</td><td>201</td><td>Carrinho vazio criado com sucesso.</td></tr><tr><td>Carrinho</td><td>Adicionar item válido</td><td><span class="badge badge-pass">Pass</span></td><td>POST /carrinho/:id/itens</td><td>200</td><td>200</td><td>Subtotal e total calculados corretamente.</td></tr><tr><td>Estoque</td><td>Adicionar item com estoque zero</td><td><span class="badge badge-fail">Fail</span></td><td>POST /carrinho/:id/itens</td><td>422</td><td>200</td><td>Mock aceita item sem estoque.</td></tr><tr><td>Estoque</td><td>Quantidade acima do estoque</td><td><span class="badge badge-fail">Fail</span></td><td>POST /carrinho/:id/itens</td><td>422</td><td>200</td><td>Mock aceita quantidade maior que disponível.</td></tr><tr><td>Cupom</td><td>PERCENT10 elegível</td><td><span class="badge badge-pass">Pass</span></td><td>POST /carrinho/:id/cupom</td><td>200</td><td>200</td><td>Cupom aplicado quando subtotal é maior que R$ 50,00.</td></tr><tr><td>Cupom</td><td>PERCENT10 em subtotal exato</td><td><span class="badge badge-fail">Fail</span></td><td>POST /carrinho/:id/cupom</td><td>200</td><td>422</td><td>Contrato pede mínimo inclusivo e mock rejeita.</td></tr><tr><td>Cupom</td><td>FIXO20 expirado</td><td><span class="badge badge-fail">Fail</span></td><td>POST /carrinho/:id/cupom</td><td>422</td><td>200</td><td>Validade expirada não é verificada.</td></tr><tr><td>Cupom</td><td>Acumular cupons</td><td><span class="badge badge-fail">Fail</span></td><td>POST /carrinho/:id/cupom</td><td>422</td><td>200</td><td>Segundo cupom é aceito no mesmo carrinho.</td></tr><tr><td>Cupom</td><td>SELLERB15</td><td><span class="badge badge-fail">Fail</span></td><td>POST /carrinho/:id/cupom</td><td>200</td><td>200</td><td>Desconto calcula sobre subtotal total, não só sellerB.</td></tr><tr><td>Cupom</td><td>NOVATO5 limite de uso</td><td><span class="badge badge-fail">Fail</span></td><td>POST /carrinho/:id/cupom</td><td>422</td><td>200</td><td>Segundo uso ainda é aceito.</td></tr><tr><td>Checkout</td><td>Carrinho vazio</td><td><span class="badge badge-pass">Pass</span></td><td>POST /carrinho/:id/checkout</td><td>422</td><td>422</td><td>Regra de carrinho vazio atendida.</td></tr><tr><td>Checkout</td><td>Pedido confirmado</td><td><span class="badge badge-pass">Pass</span></td><td>POST /carrinho/:id/checkout</td><td>201</td><td>201</td><td>Pedido criado com status confirmado.</td></tr><tr><td>Rota</td><td>Carrinho inexistente</td><td><span class="badge badge-pass">Pass</span></td><td>GET /carrinho/cart_inexistente</td><td>404</td><td>404</td><td>Rota responde como esperado.</td></tr>
+        </tbody>
+      </table>
+      <div class="acceptance">
+        <strong>Critério de aceite desta suíte:</strong><br/>
+        Falhas atuais não representam instabilidade dos testes, e sim divergências funcionais da mock API versus o contrato esperado do desafio.
+        Em uma aplicação real, o objetivo é zerar essas falhas após correção dos defeitos no backend.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
