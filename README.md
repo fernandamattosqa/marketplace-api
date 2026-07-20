@@ -55,11 +55,29 @@ npm run test:watch
 | Comando | Objetivo |
 |---|---|
 | `npm test` | Executa todos os testes de API (`node:test`). |
+| `npm run test:bdd` | Executa cenários BDD em Gherkin com Cucumber. |
 | `npm run test:watch` | Executa testes em modo watch. |
 | `npm run report:evidence` | Gera evidencias automatizadas de requisicoes e respostas. |
 | `npm run report:perf` | Gera baseline de performance (RPS, média, P95/P99). |
 | `npm run report:html` | Gera dashboard HTML para apresentacao. |
 | `npm run mock:api` | Sobe a mock API localmente em `http://localhost:3000`. |
+
+## Testes em Gherkin (BDD)
+
+Os cenarios BDD ficam em:
+
+- `tests/bdd/features/catalogo-carrinho.feature`
+- `tests/bdd/features/checkout.feature`
+
+Os steps ficam em:
+
+- `tests/bdd/steps/marketplace.steps.js`
+
+Executar:
+
+```bash
+npm run test:bdd
+```
 
 ## Pipeline CI no GitHub
 
