@@ -16,6 +16,6 @@
     "report:html": "node scripts/gerar-relatorio-html.js"
   },
   "devDependencies": {
-     "@cucumber/cucumber": "^12.2.0"
+    "@cucumber/cucumber": "^13.2.0"
   }
 }
