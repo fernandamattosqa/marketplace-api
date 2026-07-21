@@ -1,4 +1,4 @@
-name: QA API CI
+name: Pipeline de Regressao QA API
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
       - name: Upload QA artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: qa-artifacts
+          name: relatorios-regressao-qa
           if-no-files-found: error
           path: |
             docs/relatorio-dashboard.html
@@ -65,7 +65,7 @@ jobs:
       - name: Build summary
         shell: bash
         run: |
-          echo "## QA Pipeline Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Resumo da Pipeline de Regressao QA" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- Test command: npm test" >> "$GITHUB_STEP_SUMMARY"
           echo "- Test exit code: ${{ steps.test_run.outputs.exit_code }}" >> "$GITHUB_STEP_SUMMARY"

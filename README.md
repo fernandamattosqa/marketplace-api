@@ -81,7 +81,7 @@ npm run test:bdd
 
 ## Pipeline CI no GitHub
 
-Este projeto ja inclui pipeline em GitHub Actions:
+Este projeto ja inclui pipeline de regressao em GitHub Actions:
 
 - `.github/workflows/ci.yml`
 
@@ -142,4 +142,4 @@ git branch -M main
 git push -u origin main
 ```
 
-3. Abrir a aba Actions no GitHub e acompanhar a execucao da pipeline QA API CI.
+3. Abrir a aba Actions no GitHub e acompanhar a execucao da pipeline Pipeline de Regressao QA API.
