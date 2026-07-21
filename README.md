@@ -89,7 +89,9 @@ Fluxo da pipeline em push/PR:
 1. Instala dependencias.
 2. Executa `npm test` (modo nao bloqueante, para manter o fluxo de bug report do desafio).
 3. Executa `npm run test:bdd` para regressao BDD em Gherkin.
-4. Publica resumo da execucao na aba de summary do job.
+4. Gera evidencias, baseline de performance e dashboard HTML.
+5. Publica os relatorios em `Actions > Artifacts` com o nome `relatorios-regressao-qa`.
+6. Publica resumo da execucao na aba de summary do job.
 
 Se quiser transformar em gate estrito (pipeline quebrando com teste falhando), altere no workflow:
 

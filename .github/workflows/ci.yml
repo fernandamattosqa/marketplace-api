@@ -41,9 +41,44 @@ jobs:
           exit 0
 
       - name: Run BDD regression suite
-        run: npm run test:bdd
+        id: bdd_run
+        shell: bash
+        run: |
+          set +e
+          npm run test:bdd
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Generate evidence report
+        if: always()
+        run: npm run report:evidence
+
+      - name: Generate performance baseline
+        if: always()
+        run: npm run report:perf
+
+      - name: Generate HTML dashboard
+        if: always()
+        run: npm run report:html
+
+      - name: Upload QA reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorios-regressao-qa
+          if-no-files-found: error
+          path: |
+            docs/relatorio-dashboard.html
+            docs/relatorio-executivo.md
+            docs/evidencias-automatica.md
+            docs/evidencias-requisicoes.md
+            docs/performance-baseline.json
+            docs/performance-baseline.md
+            docs/parte3-bugs.md
 
       - name: Build summary
+        if: always()
         shell: bash
         run: |
           echo "## Resumo da Regressao Funcional API" >> "$GITHUB_STEP_SUMMARY"
@@ -51,13 +86,15 @@ jobs:
           echo "- API regression command: npm test" >> "$GITHUB_STEP_SUMMARY"
           echo "- API regression exit code: ${{ steps.test_run.outputs.exit_code }}" >> "$GITHUB_STEP_SUMMARY"
           echo "- BDD regression command: npm run test:bdd" >> "$GITHUB_STEP_SUMMARY"
+          echo "- BDD regression exit code: ${{ steps.bdd_run.outputs.exit_code }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Artefato: relatorios-regressao-qa" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           if [ "${{ steps.test_run.outputs.exit_code }}" != "0" ]; then
             echo "Observação: falhas funcionais podem ser esperadas neste desafio para evidenciar bugs da mock API." >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Enforce strict mode
-        if: env.CI_STRICT == 'true' && steps.test_run.outputs.exit_code != '0'
+        if: env.CI_STRICT == 'true' && (steps.test_run.outputs.exit_code != '0' || steps.bdd_run.outputs.exit_code != '0')
         run: |
-          echo "CI_STRICT=true e a suíte falhou. Encerrando job com erro."
+          echo "CI_STRICT=true e pelo menos uma suíte de regressão falhou. Encerrando job com erro."
           exit 1
