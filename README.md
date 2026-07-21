@@ -81,15 +81,15 @@ npm run test:bdd
 
 ## Pipeline CI no GitHub
 
-Este projeto ja inclui pipeline de regressao em GitHub Actions:
+Este projeto ja inclui pipeline de regressao funcional em GitHub Actions:
 
 - `.github/workflows/ci.yml`
 
 Fluxo da pipeline em push/PR:
 1. Instala dependencias.
 2. Executa `npm test` (modo nao bloqueante, para manter o fluxo de bug report do desafio).
-3. Gera evidencias, baseline de performance e dashboard.
-4. Publica artefatos em `Actions > Artifacts`.
+3. Executa `npm run test:bdd` para regressao BDD em Gherkin.
+4. Publica resumo da execucao na aba de summary do job.
 
 Se quiser transformar em gate estrito (pipeline quebrando com teste falhando), altere no workflow:
 
@@ -142,4 +142,4 @@ git branch -M main
 git push -u origin main
 ```
 
-3. Abrir a aba Actions no GitHub e acompanhar a execucao da pipeline Pipeline de Regressao QA API.
+3. Abrir a aba Actions no GitHub e acompanhar a execucao da pipeline Regressao Funcional API.

@@ -1,4 +1,4 @@
-name: Pipeline de Regressao QA API
+name: Regressao Funcional API
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  qa-validation:
+  regressao-funcional:
     runs-on: ubuntu-latest
     env:
       CI_STRICT: "false"
@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run API test suite (non-blocking for bug-report workflow)
+      - name: Run API regression suite (non-blocking for bug-report workflow)
         id: test_run
         shell: bash
         run: |
@@ -39,37 +39,17 @@ jobs:
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
 
-      - name: Generate evidence
-        run: npm run report:evidence
-
-      - name: Generate performance baseline
-        run: npm run report:perf
-
-      - name: Generate HTML dashboard
-        run: npm run report:html
-
-      - name: Upload QA artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: relatorios-regressao-qa
-          if-no-files-found: error
-          path: |
-            docs/relatorio-dashboard.html
-            docs/relatorio-executivo.md
-            docs/evidencias-automatica.md
-            docs/evidencias-requisicoes.md
-            docs/performance-baseline.json
-            docs/performance-baseline.md
-            docs/parte3-bugs.md
+      - name: Run BDD regression suite
+        run: npm run test:bdd
 
       - name: Build summary
         shell: bash
         run: |
-          echo "## Resumo da Pipeline de Regressao QA" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Resumo da Regressao Funcional API" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Test command: npm test" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Test exit code: ${{ steps.test_run.outputs.exit_code }}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Reports generated: evidence, performance baseline, dashboard" >> "$GITHUB_STEP_SUMMARY"
+          echo "- API regression command: npm test" >> "$GITHUB_STEP_SUMMARY"
+          echo "- API regression exit code: ${{ steps.test_run.outputs.exit_code }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- BDD regression command: npm run test:bdd" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           if [ "${{ steps.test_run.outputs.exit_code }}" != "0" ]; then
             echo "Observação: falhas funcionais podem ser esperadas neste desafio para evidenciar bugs da mock API." >> "$GITHUB_STEP_SUMMARY"
